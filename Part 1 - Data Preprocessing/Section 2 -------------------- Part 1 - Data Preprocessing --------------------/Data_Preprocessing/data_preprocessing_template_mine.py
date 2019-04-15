@@ -54,7 +54,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
                                                     test_size = 0.2,
                                                     random_state=0)
 
-# Feature Scaling, 这里对虚拟变量也进行了特征缩放
+# 6.Feature Scaling, 这里对虚拟变量也进行了特征缩放
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 # 拟合，用训练集的数据
