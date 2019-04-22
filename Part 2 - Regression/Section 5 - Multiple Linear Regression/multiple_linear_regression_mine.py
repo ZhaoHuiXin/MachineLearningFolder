@@ -27,6 +27,7 @@ X[:, 3] = labelencoder_X.fit_transform(X[:, 3])
 onehotencoder = OneHotEncoder(categorical_features = [3])
 X = onehotencoder.fit_transform(X).toarray()
 
+# state martix become col 0 ~ 2
 # Avoiding the Dummy Variable Trap, remove col 0 of X 
 X = X[:, 1:]
 
@@ -42,8 +43,7 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)"""
 
 ## Fitting Multiple Linear Regression to the Training set
-# library same like Simple Linear Regression, 
-# difference is class LinearRegression
+# library same like Simple Linear Regression,
 from sklearn.linear_model import LinearRegression
 # create the regressor(创建多元线性回归器)
 regressor = LinearRegression()
@@ -69,6 +69,7 @@ import statsmodels.formula.api as sm
 # 2. transform X_train set
 X_train = np.append(arr = np.ones((40, 1)), values=X_train, axis=1)
 # optimal，包含最佳的自变量选择, why list col here? 方便后面直接对代码进行改动
+# 12state 3RD 4admin 5market
 X_opt = X_train[:, [0, 1, 2, 3, 4, 5]]
 # 用 X_opt 拟合多维线性回归器，这个回归器不是上面的 regressor
 # 而是通过新的标准库创建的
@@ -78,22 +79,32 @@ regressor_OLS = sm.OLS(endog = y_train, exog = X_opt).fit()
 # >>反向淘汰 step3 finshed
 regressor_OLS.summary()
 
+## 反向淘汰 loop
 # read OLS Regression Results and remove max P-value col x2
 X_opt = X_train[:, [0, 1, 3, 4, 5]]
 regressor_OLS = sm.OLS(endog = y_train, exog = X_opt).fit()
 regressor_OLS.summary()
+
 # read OLS Regression Results and remove max P-value col x1
 X_opt = X_train[:, [0, 3, 4, 5]]
 regressor_OLS = sm.OLS(endog = y_train, exog = X_opt).fit()
 regressor_OLS.summary()
+
 # read OLS Regression Results and remove max P-value col x2
+# 广义R-squared 可以更公正的对模型作出评价，这里就可以最后对自变量进行取舍
+# Adj.R-squared = 0.947  the Biggest, so use this model，包括研发和市场支出
+# 虽然主观设定的显著性门槛是0.05，显然0.07的行政支出不符合，应该滤掉；
+# 但是用广义R-squared客观公正的评价，模型3的拟合效果应该是最好的，所以要保留市场支出自变量
 X_opt = X_train[:, [0, 3, 5]]
 regressor_OLS = sm.OLS(endog = y_train, exog = X_opt).fit()
 regressor_OLS.summary()
+
 # read OLS Regression Results and remove max P-value col x2
+# Adj.R-squared = 0.944
 X_opt = X_train[:, [0, 3]]
 regressor_OLS = sm.OLS(endog = y_train, exog = X_opt).fit()
 regressor_OLS.summary()
+# 得到结论，研发支出对收益的P-value 最小，影响最大
 # 最后行政支出列的P-value是0.7，也不是非常大，但这里的门槛是0.05，还是要舍弃的
 # 之后会讲述如何用其他的方法，判断线性模型的性能如何
 
