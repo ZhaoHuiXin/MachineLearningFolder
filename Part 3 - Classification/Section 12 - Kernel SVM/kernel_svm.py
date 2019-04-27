@@ -1,5 +1,5 @@
-# Classification template
-## ----- 准备工作
+# Kernel SVM
+
 # Importing the libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,24 +20,18 @@ sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
 X_test = sc.transform(X_test)
 
-
-## 2.创建分类器并用分类器拟合（SVM。。。）
 # Fitting classifier to the Training set
-# 1.导入，2.创建分类器对象，3.用训练集拟合分类器
-# Create your classifier here
+from sklearn.svm import SVC
+classifier = SVC(kernel = 'rbf', random_state = 0)
+classifier.fit(X_train, y_train)
 
-## 3.预测测试集样品所属类别
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
 
-
-## 4.创建混淆矩阵评估分类器性能
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
-
-## 5.将分类结果绘图，显示训练集结果和测试集结果，看模型是否被过度拟合
 # Visualising the Training set results
 from matplotlib.colors import ListedColormap
 X_set, y_set = X_train, y_train
@@ -49,7 +43,7 @@ plt.xlim(X1.min(), X1.max())
 plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
-                c = ListedColormap(('red', 'green'))(i), label = j)
+                c = ListedColormap(('orange', 'blue'))(i), label = j)
 plt.title('Classifier (Training set)')
 plt.xlabel('Age')
 plt.ylabel('Estimated Salary')

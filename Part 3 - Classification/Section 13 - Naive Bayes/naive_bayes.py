@@ -1,3 +1,4 @@
+# Naive Bayes
 # Classification template
 
 ## 1.准备工作 数据预处理
@@ -24,14 +25,10 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 
 
-# Fitting classifier to the Training set
-# Create your classifier here
 ## 2. 创建分类器，并用测试集进行拟合训练
-# from sklearn.linear_model import ？
-# random_state 确定随机数组的生成方式
-# classifier = ？
-# 用训练集拟合分类器，拟合过程中，分类器会逐渐学习X_train和y_train之间的相关度
-# classifier.fit(X_train, y_train)
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+classifier.fit(X_train, y_train)
 
 ## 3.用拟合好的分类器预测测试集的结果——Predicting the Test set results
 y_pred = classifier.predict(X_test)
@@ -77,7 +74,7 @@ plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('orange', 'blue'))(i), label = j)
-plt.title('Classifier (Training set)')
+plt.title('Naive Bayes (Training set)')
 plt.xlabel('Age')
 plt.ylabel('Estimated Salary')
 # 显示不同的点对应的值——图注
@@ -97,11 +94,16 @@ plt.ylim(X2.min(), X2.max())
 for i, j in enumerate(np.unique(y_set)):
     plt.scatter(X_set[y_set == j, 0], X_set[y_set == j, 1],
                 c = ListedColormap(('orange', 'blue'))(i), label = j)
-plt.title('Classifier (Test set)')
+plt.title('Naive Bayes (Test set)')
 plt.xlabel('Age')
 plt.ylabel('Estimated Salary')
 plt.legend()
 plt.show()
+
+
+
+
+
 
 
 
