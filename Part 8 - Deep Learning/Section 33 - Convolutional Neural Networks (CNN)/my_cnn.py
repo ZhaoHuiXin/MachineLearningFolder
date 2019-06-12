@@ -16,6 +16,7 @@ classifier.add(Conv2D(filters=32, kernel_size=(3,3), activation='relu', input_sh
 # Adding the MaxPooling layer
 classifier.add(MaxPooling2D(pool_size=(2,2)))
 
+
 # imporve the model
 classifier.add(Conv2D(filters=32, kernel_size=(3,3), activation='relu'))
 classifier.add(MaxPooling2D(pool_size=(2,2)))
@@ -55,6 +56,10 @@ classifier.fit_generator(generator=training_set,
                          steps_per_epoch=250,
                          epochs=25,
                          validation_data=test_set,
+<<<<<<< HEAD
                          validation_steps=62.5)
 
 # classifier.predict()
+=======
+                         validation_steps=62.5) 
+>>>>>>> practice
